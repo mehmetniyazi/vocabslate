@@ -2,26 +2,38 @@ console.log("Content-Script started");
 console.log(window.getSelection().toString());
 
 document.onmouseup = highlightHandler;
+document.onscroll = onscrollHandler;
+
+var btn;
+var t;
 
 function highlightHandler(e) {
     // get the highlighted text
     var text = document.getSelection();
+
     // check if anything is actually highlighted
-    if (text !== '') {
+    if (text.toString().length > 1) {
         // we've got a highlight, now do your stuff here
-        console.log(text.toString());
-        var leftAbsolute = text.getRangeAt(0).getBoundingClientRect().left;
-        var bottomAbsolute = text.getRangeAt(0).getBoundingClientRect().bottom;
-
-
-
-        var btn = document.createElement("BUTTON")
-        btn.style.left = String(leftAbsolute);
-        console.log(btn.style.left)
-        var t = document.createTextNode("CLICK ME");
-        btn.appendChild(t);
-        //Appending to DOM 
-        document.body.appendChild(btn);
-
+        var leftAbsolute = document.getSelection().getRangeAt(0).getBoundingClientRect().left;
+        var topAbsolute = text.getRangeAt(0).getBoundingClientRect().bottom;
+        console.log(text.toString())
+        getButton(leftAbsolute, topAbsolute, text);
+    } else {
+        document.body.removeChild(btn);
     }
+}
+
+function onscrollHandler(e) {
+    document.body.removeChild(btn);
+}
+
+function getButton(x, y, text) {
+    btn = document.createElement("BUTTON")
+    t = document.createTextNode(`${text}`);
+    btn.style.position = "fixed";
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+    btn.appendChild(t);
+    //Appending to DOM 
+    document.body.appendChild(btn);
 }

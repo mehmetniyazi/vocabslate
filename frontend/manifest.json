@@ -11,7 +11,8 @@
     "activeTab",
     "scripting",
     "bookmarks",
-    "tabs"
+    "tabs",
+    "webRequest"
   ],
   "content_scripts": [
     {
@@ -33,9 +34,6 @@
     "128": "Icon.png"
   },
   "host_permissions": [
-    "http://www.blogger.com/",
-    "*://*/*",
-    "http://*/*",
-    "https://*/*"
+    "<all_urls>"
   ]
 }
